@@ -10,9 +10,9 @@ import retrofit2.http.Query;
 
 public interface OmdbService {
 
-   // public static final String ENDPOINT = "http://www.omdbapi.com";
+
 
     @GET("/")
-    Call<Films> searchFilms(@Query("apikey") String apiKey,@Query("s") String query);
+    Call<Films> searchFilms(@Query("apikey") String apiKey,@Query("t") String query);
 
 }

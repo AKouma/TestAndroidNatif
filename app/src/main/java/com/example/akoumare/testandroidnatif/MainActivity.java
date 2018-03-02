@@ -32,8 +32,7 @@ public class MainActivity extends Activity  {
         setContentView(R.layout.main);
 
         //liste
-        ListView list = (ListView)findViewById(R.id.maliste);
-        ArrayAdapter<String> tableau = new ArrayAdapter<String>(list.getContext(), R.layout.listage, R.id.monTexte);
+
 
         // logger mieux que des toast
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
@@ -88,8 +87,12 @@ public class MainActivity extends Activity  {
             call.enqueue(new Callback<Films>() {
                 @Override
                 public void onResponse(Call<Films> call, Response<Films> response) {
+                    ListView list = (ListView)findViewById(R.id.maliste);
+                    ArrayAdapter<String> tableau = new ArrayAdapter<String>(list.getContext(), R.layout.listage, R.id.monTexte);
                     if(response.isSuccessful() && response.body()!= null) {
-                        Toast.makeText(MainActivity.this,"pass Connection",Toast.LENGTH_SHORT).show();
+                        tableau.add(response.body().getTitle().toString());
+                        list.setAdapter(tableau);
+                        Toast.makeText(MainActivity.this,"Connection successful",Toast.LENGTH_SHORT).show();
                     }else {
                         // Erreur serveur
                     }

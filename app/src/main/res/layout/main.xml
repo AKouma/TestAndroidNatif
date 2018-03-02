@@ -7,14 +7,44 @@
     tools:context="com.example.akoumare.testandroidnatif.MainActivity">
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+
+            <EditText android:id="@+id/Nomfilm"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:hint="Entrez le nom du film"
+                >
+            </EditText>
+            <LinearLayout android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:gravity="right"
+                android:layout_gravity="center">
+
+                <Button android:id="@+id/Chercher"
+                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:text="Rechercher"
+                    >
+                </Button>
+
+            </LinearLayout>
+        </LinearLayout>
 
         <ListView
             android:layout_height="fill_parent"
             android:id="@+id/maliste"
             android:layout_width="fill_parent">
         </ListView>
+
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

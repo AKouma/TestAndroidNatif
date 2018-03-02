@@ -12,7 +12,10 @@ public interface OmdbService {
 
 
 
-    @GET("/")
-    Call<Films> searchFilms(@Query("apikey") String apiKey,@Query("t") String query);
+  /*  @GET("/")
+    Call<Films> searchFilms(@Query("apikey") String apiKey,@Query("s") String query);
 
+  */
+  @GET("/")
+  Call<ListeFilms> searchFilms(@Query("apikey") String apiKey,@Query("s") String query);
 }

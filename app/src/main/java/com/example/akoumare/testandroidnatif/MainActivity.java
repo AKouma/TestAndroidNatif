@@ -7,9 +7,14 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -25,12 +30,14 @@ public class MainActivity extends Activity  {
     Button search;
     Films film = new Films();
     OmdbService service;
+    ImageView imagedufilm;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-
+        imagedufilm=(ImageView)findViewById(R.id.monImage);
         //liste
 
 
@@ -79,20 +86,27 @@ public class MainActivity extends Activity  {
             }
         });
 
-        //method startSearch
+
     }
+    //method startSearch
     public void startSearch(){
         if(!titre.getText().toString().isEmpty()&& titre.getText().toString()!=null){
-            Call<Films> call = service.searchFilms("2613acdd",titre.getText().toString());
-            call.enqueue(new Callback<Films>() {
+            Call<ListeFilms> call = service.searchFilms("2613acdd",titre.getText().toString());
+            call.enqueue(new Callback<ListeFilms>() {
                 @Override
-                public void onResponse(Call<Films> call, Response<Films> response) {
+                public void onResponse(Call<ListeFilms> call, Response<ListeFilms> response) {
                     ListView list = (ListView)findViewById(R.id.maliste);
                     ArrayAdapter<String> tableau = new ArrayAdapter<String>(list.getContext(), R.layout.listage, R.id.monTexte);
                     if(response.isSuccessful() && response.body()!= null) {
-                        tableau.add(response.body().getTitle().toString());
+                       List<Films> results= response.body().getSearch();
+                        for(int i = 0; i < results.size();i++){
+                              tableau.add(results.get(i).getTitle().toString());
+                        }
+                      //  tableau.add(response.body().getTitle().toString() );
+                       // Picasso.with(getBaseContext()).load(response.body().getPoster().toString()+"").into(imagedufilm);
                         list.setAdapter(tableau);
                         Toast.makeText(MainActivity.this,"Connection successful",Toast.LENGTH_SHORT).show();
+                      //  Toast.makeText(MainActivity.this,response.body().getPoster().toString(),Toast.LENGTH_SHORT).show();
                     }else {
                         // Erreur serveur
                     }
@@ -100,7 +114,7 @@ public class MainActivity extends Activity  {
                 }
 
                 @Override
-                public void onFailure(Call<Films> call, Throwable t) {
+                public void onFailure(Call<ListeFilms> call, Throwable t) {
                     Toast.makeText(MainActivity.this,"error Connection",Toast.LENGTH_SHORT).show();
                 }
             });

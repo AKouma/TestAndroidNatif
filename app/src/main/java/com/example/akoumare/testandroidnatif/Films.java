@@ -1,35 +1,68 @@
 package com.example.akoumare.testandroidnatif;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by akoumare on 02/03/2018.
  */
 
 public class Films {
-    private String Poster ;
-    private String Title;
-    private String Genre;
+
+
+    @SerializedName("Poster")
+    private String poster ;
+
+    @SerializedName("Title")
+    private String title;
+
+    @SerializedName("Genre")
+    private String genre;
+
+    @SerializedName("Year")
+    private String year;
+
+    @SerializedName("Actors")
+    private String actors;
+
+
 
     public String getPoster() {
-        return Poster;
+        return poster;
     }
 
     public void setPoster(String poster) {
-        Poster = poster;
+        this.poster = poster;
     }
 
     public String getTitle() {
-        return Title;
+        return title;
     }
 
     public void setTitle(String title) {
-        Title = title;
+        this.title = title;
     }
 
     public String getGenre() {
-        return Genre;
+        return genre;
     }
 
     public void setGenre(String genre) {
-        Genre = genre;
+        this.genre = genre;
+    }
+
+    public String getYear() {
+        return year;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
+    }
+
+    public String getActors() {
+        return actors;
+    }
+
+    public void setActors(String actors) {
+        this.actors = actors;
     }
 }

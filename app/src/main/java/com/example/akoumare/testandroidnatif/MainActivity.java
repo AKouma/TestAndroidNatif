@@ -16,6 +16,11 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-
+        ListView list = (ListView)findViewById(R.id.maliste);
+        ArrayAdapter<String> tableau = new ArrayAdapter<String>(list.getContext(), R.layout.listage, R.id.monTexte);
+        for (int i=0; i<20; i++) {
+            tableau.add("Name " + i);
+        }
+        list.setAdapter(tableau);
     }
 }

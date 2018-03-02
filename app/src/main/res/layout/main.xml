@@ -4,8 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
     tools:context="com.example.akoumare.testandroidnatif.MainActivity">
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
@@ -41,24 +39,11 @@
             </LinearLayout>
         </LinearLayout>
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <ProgressBar
-                android:id="@+id/progress_spinner"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:indeterminate="true"
-                android:visibility="gone" />
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_view"
-                android:visibility="gone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:listitem="@layout/list_item_movie"
-                android:paddingBottom="28dp" />
-        </FrameLayout>
+        <ListView
+            android:layout_height="fill_parent"
+            android:id="@+id/maliste"
+            android:layout_width="fill_parent">
+        </ListView>
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

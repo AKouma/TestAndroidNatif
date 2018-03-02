@@ -1,18 +1,30 @@
 package com.example.akoumare.testandroidnatif;
 
+import android.app.Activity;
 import android.os.Bundle;
+import android.view.KeyEvent;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.content.Intent;
-import android.view.View;
-import android.view.KeyEvent;
+import android.widget.TextView;
+import android.widget.Toast;
 
-public class MainActivity extends ActionBarActivity  {
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+public class MainActivity extends Activity  {
 
     EditText titre ;
-    Button Search;
+    Button search;
     Films film = new Films();
+    OmdbService service;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,13 +35,25 @@ public class MainActivity extends ActionBarActivity  {
         ListView list = (ListView)findViewById(R.id.maliste);
         ArrayAdapter<String> tableau = new ArrayAdapter<String>(list.getContext(), R.layout.listage, R.id.monTexte);
 
+        // logger mieux que des toast
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+// set your desired log level
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+// add your other interceptors …
+
+// add logging as last interceptor
+        httpClient.addInterceptor(logging);  // <-- this is the important line!
+
         //Appels du service
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://www.omdbapi.com")
+                .baseUrl("http://www.omdbapi.com/")
                 .addConverterFactory(GsonConverterFactory.create())
+                .client(httpClient.build())
                 .build();
 
-        service = retrofit.create(OmdbService.class);
+         service = retrofit.create(OmdbService.class);
 
 
         titre =(EditText)findViewById (R.id.Nomfilm);
@@ -57,23 +81,32 @@ public class MainActivity extends ActionBarActivity  {
         });
 
         //method startSearch
-        public void startSearch(){
-            if(!titre.getText().toString().isEmpty()) && titre.getText().toString()!=null){
-            all<Repo> call = service.searchFilms();
+    }
+    public void startSearch(){
+        if(!titre.getText().toString().isEmpty()&& titre.getText().toString()!=null){
+            Call<Films> call = service.searchFilms("2613acdd",titre.getText().toString());
             call.enqueue(new Callback<Films>() {
                 @Override
-                public void onResponse(Response<Films> responses){
-                    // Get result Repo from response.body()
-                    Films film = new Films();for (int i =0 ; i < responses.body().size()){}}
+                public void onResponse(Call<Films> call, Response<Films> response) {
+                    if(response.isSuccessful() && response.body()!= null) {
+                        Toast.makeText(MainActivity.this,"pass Connection",Toast.LENGTH_SHORT).show();
+                    }else {
+                        // Erreur serveur
+                    }
+
+                }
+
                 @Override
-                public void onFailure(Throwable t) {
-                    Toast.makeText(this,"error Connection",Toast.LENGTH_SHORT).show();
+                public void onFailure(Call<Films> call, Throwable t) {
+                    Toast.makeText(MainActivity.this,"error Connection",Toast.LENGTH_SHORT).show();
                 }
             });
+
+
+
         }
         else{
             Toast.makeText(this,"renseignez le titre d'un film",Toast.LENGTH_SHORT).show();
         }
-    }
     }
 }

@@ -18,7 +18,7 @@
 
 
             <EditText android:id="@+id/Nomfilm"
-                android:layout_height="40dp"
+                android:layout_height="60dp"
                 android:layout_width="200dp"
                 android:hint="Entrez le titre du film"
                 >
@@ -30,7 +30,7 @@
                 android:layout_gravity="center">
 
                 <Button android:id="@+id/Chercher"
-                    android:layout_height="match_parent"
+                    android:layout_height="60dp"
                     android:layout_width="match_parent"
                     android:text="Rechercher"
                     >
@@ -39,11 +39,24 @@
             </LinearLayout>
         </LinearLayout>
 
+        <ProgressBar
+            android:id="@+id/proBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="20dp"
+            android:indeterminate="false"
+            android:progress="1" />
+
         <ListView
             android:layout_height="fill_parent"
             android:id="@+id/maliste"
             android:layout_width="fill_parent">
         </ListView>
+
+
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

@@ -31,15 +31,16 @@ public class MainActivity extends Activity  {
     Films film = new Films();
     OmdbService service;
     ImageView imagedufilm;
-
+    CustumerAdapter tableau;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         imagedufilm=(ImageView)findViewById(R.id.monImage);
-        //liste
-
+        tableau =new  CustumerAdapter(this);
+        ListView list = (ListView)findViewById(R.id.maliste);
+        list.setAdapter(tableau);
 
         // logger mieux que des toast
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
@@ -95,18 +96,23 @@ public class MainActivity extends Activity  {
             call.enqueue(new Callback<ListeFilms>() {
                 @Override
                 public void onResponse(Call<ListeFilms> call, Response<ListeFilms> response) {
-                    ListView list = (ListView)findViewById(R.id.maliste);
-                    ArrayAdapter<String> tableau = new ArrayAdapter<String>(list.getContext(), R.layout.listage, R.id.monTexte);
                     if(response.isSuccessful() && response.body()!= null) {
                        List<Films> results= response.body().getSearch();
-                        for(int i = 0; i < results.size();i++){
-                              tableau.add(results.get(i).getTitle().toString());
-                        }
-                      //  tableau.add(response.body().getTitle().toString() );
-                       // Picasso.with(getBaseContext()).load(response.body().getPoster().toString()+"").into(imagedufilm);
-                        list.setAdapter(tableau);
-                        Toast.makeText(MainActivity.this,"Connection successful",Toast.LENGTH_SHORT).show();
-                      //  Toast.makeText(MainActivity.this,response.body().getPoster().toString(),Toast.LENGTH_SHORT).show();
+                       tableau.clear();
+                       tableau.addAll(results);
+                       tableau.notifyDataSetChanged();
+                       /* CustumerAdapter tableau = new CustumerAdapter(list.getContext(), results);
+                      if(!results.isEmpty() && (results != null)){
+                           for(int i = 0; i < results.size();i++) {
+                               tableau.add(results.get(i));
+                           }
+                           //  tableau.add(response.body().getTitle().toString() );
+
+                           Toast.makeText(MainActivity.this,"Connection successful",Toast.LENGTH_SHORT).show();
+                       }else {
+                            Toast.makeText(MainActivity.this,"Film non trouvé",Toast.LENGTH_SHORT).show();
+                       }*/
+
                     }else {
                         // Erreur serveur
                     }

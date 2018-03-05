@@ -5,24 +5,22 @@
     android:layout_height="fill_parent"
     android:layout_width="fill_parent"
     android:gravity="center">
-    <TextView android:layout_height="wrap_content"
+
+    <ImageView
+        android:id="@+id/monImage"
+        android:layout_height="50dp"
+        android:layout_width="50dp"
+        android:layout_margin="20dp"
+        android:src="#AAA">
+    </ImageView>
+
+    <TextView
+        android:layout_height="50dp"
         android:id="@+id/monTexte"
         android:text="TextView"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:layout_width="wrap_content">
+        android:layout_width="match_parent">
     </TextView>
-    <LinearLayout android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:gravity="right"
-        android:layout_gravity="center">
 
-        <ImageView android:id="@+id/monImage"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:src="#AAA">
-        </ImageView>
-
-    </LinearLayout>
 
 </LinearLayout>

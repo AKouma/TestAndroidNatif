@@ -18,8 +18,8 @@
 
 
             <EditText android:id="@+id/Nomfilm"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_width="200dp"
                 android:hint="Entrez le titre du film"
                 >
             </EditText>

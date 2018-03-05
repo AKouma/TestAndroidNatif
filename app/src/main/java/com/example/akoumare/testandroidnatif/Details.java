@@ -54,36 +54,23 @@ public class Details extends Activity {
 
         Picasso.with(getBaseContext()).load(lien.toString()).into(image);
 
-      /*  if(!titre.isEmpty() && titre  !=null){
+        if(titre  !=null){
             tabl.add("Titre :"+titre);
         }
-        else {
-            Toast.makeText(this,"bien",Toast.LENGTH_SHORT).show();
-        }
 
-        if(!annee.isEmpty() && annee  !=null){
+
+        if(annee  !=null){
             tabl.add("Année de sortie :"+annee);
         }
-        else {
-            Toast.makeText(this,"bien",Toast.LENGTH_SHORT).show();
-        }
 
-
-        if(!acteurs.isEmpty() && acteurs  !=null){
+        if(acteurs  !=null){
             tabl.add("Acteurs :"+acteurs);
         }
-        else {
-            Toast.makeText(this,"bien",Toast.LENGTH_SHORT).show();
-        }
 
-
-        if(!genre.isEmpty() && genre  !=null){
+        if(genre  !=null){
             tabl.add("Genre :"+genre);
-        } else {
-            Toast.makeText(this,"bien",Toast.LENGTH_SHORT).show();
         }
 
-*/
 
     }
 }

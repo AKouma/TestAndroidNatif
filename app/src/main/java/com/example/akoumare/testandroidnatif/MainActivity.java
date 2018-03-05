@@ -96,25 +96,15 @@ public class MainActivity extends Activity  {
             call.enqueue(new Callback<ListeFilms>() {
                 @Override
                 public void onResponse(Call<ListeFilms> call, Response<ListeFilms> response) {
-                    if(response.isSuccessful() && response.body()!= null) {
+                    if(response.isSuccessful() && response.body().getSearch()!= null) {
                        List<Films> results= response.body().getSearch();
                        tableau.clear();
                        tableau.addAll(results);
                        tableau.notifyDataSetChanged();
-                       /* CustumerAdapter tableau = new CustumerAdapter(list.getContext(), results);
-                      if(!results.isEmpty() && (results != null)){
-                           for(int i = 0; i < results.size();i++) {
-                               tableau.add(results.get(i));
-                           }
-                           //  tableau.add(response.body().getTitle().toString() );
-
-                           Toast.makeText(MainActivity.this,"Connection successful",Toast.LENGTH_SHORT).show();
-                       }else {
-                            Toast.makeText(MainActivity.this,"Film non trouvé",Toast.LENGTH_SHORT).show();
-                       }*/
 
                     }else {
                         // Erreur serveur
+                        Toast.makeText(MainActivity.this,"Film  non trouvé",Toast.LENGTH_SHORT).show();
                     }
 
                 }

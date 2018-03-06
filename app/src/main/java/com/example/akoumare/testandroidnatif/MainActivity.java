@@ -37,13 +37,19 @@ public class MainActivity extends Activity  {
     ImageView imagedufilm;
     CustumerAdapter tableau;
     ListView list;
+    ProgressBar progres ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.main);
         imagedufilm=(ImageView)findViewById(R.id.monImage);
         tableau =new  CustumerAdapter(this);
+
+        progres = (ProgressBar)findViewById(R.id.progressBar_cyclic);
+        progres.setVisibility(View.INVISIBLE);
+
          list = (ListView)findViewById(R.id.maliste);
         list.setAdapter(tableau);
 
@@ -90,7 +96,10 @@ public class MainActivity extends Activity  {
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              startSearch();
+                progres.setVisibility(View.VISIBLE);
+                startSearch();
+
+
             }
         });
 
@@ -108,8 +117,9 @@ public class MainActivity extends Activity  {
                         tableau.clear();
                          tableau.addAll(results);
                         tableau.notifyDataSetChanged();
-                        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        progres.setVisibility(View.GONE);
 
+                        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                 Intent intent = new Intent(MainActivity.this, Details.class);

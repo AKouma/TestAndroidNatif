@@ -42,12 +42,13 @@ public class MainActivity extends Activity  {
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     ProgressBar progres ;
+    RecyclerClickListener listener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        tableau=new CustumerAdapter(films);
+        tableau=new CustumerAdapter(films,listener);
         setContentView(R.layout.main);
         imagedufilm=(ImageView)findViewById(R.id.monImage);
 

@@ -21,22 +21,29 @@ public class CustumerAdapter extends RecyclerView.Adapter<CustumerAdapter.FilmVi
     LayoutInflater inflater;
     ListeFilms films;
     Context context;
+    private RecyclerClickListener myListener;
 
-    public class FilmViewHolder  extends RecyclerView.ViewHolder {
+    public class FilmViewHolder  extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView monTexte;
         public ImageView monImage;
 
-        public FilmViewHolder(View itemView) {
+        public FilmViewHolder(View itemView,RecyclerClickListener listener) {
             super(itemView);
             monTexte =(TextView) itemView.findViewById(R.id.monTexte);
             monImage=(ImageView) itemView.findViewById(R.id.monImage);
+            myListener =listener;
+            itemView.setOnClickListener(this);
+        }
+        @Override
+        public void onClick(View view) {
+            myListener.onClick(view, getAdapterPosition());
         }
     }
 
 
-
-    public CustumerAdapter(ListeFilms monfilm) {
+    public CustumerAdapter(ListeFilms monfilm,RecyclerClickListener listener) {
         films= monfilm;
+        myListener = listener;
     }
     // Create new views (invoked by the layout manager)
     @Override
@@ -44,7 +51,7 @@ public class CustumerAdapter extends RecyclerView.Adapter<CustumerAdapter.FilmVi
         // create a new view
         context =parent.getContext();
         View v = (View) LayoutInflater.from(parent.getContext()).inflate(R.layout.listage, parent, false);
-        FilmViewHolder vh = new FilmViewHolder(v);
+        FilmViewHolder vh = new FilmViewHolder(v,myListener);
         return vh;
     }
 
@@ -56,6 +63,7 @@ public class CustumerAdapter extends RecyclerView.Adapter<CustumerAdapter.FilmVi
         Films film = films.getSearch().get(position);
        ancien.monTexte.setText(film.getTitle().toString());
         Picasso.with(context).load(film.getPoster().toString()).into(ancien.monImage);
+
     }
 
     // Return the size of your dataset (invoked by the layout manager)

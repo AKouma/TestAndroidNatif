@@ -15,7 +15,7 @@ public class Films {
     @SerializedName("Title")
     private String title;
 
-    @SerializedName("Genre")
+    @SerializedName("Type")
     private String genre;
 
     @SerializedName("Year")

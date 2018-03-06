@@ -57,19 +57,23 @@ public class Details extends Activity {
 
         if(titre  !=null){
             tabl.add("Titre :"+titre);
+            tabl.notifyDataSetChanged();
         }
 
 
         if(annee  !=null){
             tabl.add("Année de sortie :"+annee);
+            tabl.notifyDataSetChanged();
         }
 
         if(acteurs  !=null){
             tabl.add("Acteurs :"+acteurs);
+            tabl.notifyDataSetChanged();
         }
 
         if(genre  !=null){
             tabl.add("Genre :"+genre);
+            tabl.notifyDataSetChanged();
         }
         list.setAdapter(tabl);
 

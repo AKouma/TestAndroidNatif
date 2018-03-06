@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -18,6 +20,7 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.OkHttpClient;
@@ -32,26 +35,34 @@ public class MainActivity extends Activity  {
 
     EditText titre ;
     Button search;
-    Films film = new Films();
+    ListeFilms films = new ListeFilms();
     OmdbService service;
     ImageView imagedufilm;
-    CustumerAdapter tableau;
-    ListView list;
+    private RecyclerView.Adapter tableau;
+    private RecyclerView recyclerView;
+    private RecyclerView.LayoutManager layoutManager;
     ProgressBar progres ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        tableau=new CustumerAdapter(films);
         setContentView(R.layout.main);
         imagedufilm=(ImageView)findViewById(R.id.monImage);
-        tableau =new  CustumerAdapter(this);
 
         progres = (ProgressBar)findViewById(R.id.progressBar_cyclic);
         progres.setVisibility(View.INVISIBLE);
 
-         list = (ListView)findViewById(R.id.maliste);
-        list.setAdapter(tableau);
+        recyclerView = (RecyclerView)findViewById(R.id.my_recycler_view);
+        //au cas ou on ne changera pas la taille du contenu du recycler
+        recyclerView.setHasFixedSize(true);
+
+        //utiliser un manager lineaire
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+
+        recyclerView.setAdapter(tableau);
 
 
 
@@ -112,25 +123,22 @@ public class MainActivity extends Activity  {
             call.enqueue(new Callback<ListeFilms>() {
                 @Override
                 public void onResponse(Call<ListeFilms> call, Response<ListeFilms> response) {
-                    if(response.isSuccessful() && response.body().getSearch()!= null) {
-                        final List<Films> results= response.body().getSearch();
-                        tableau.clear();
-                         tableau.addAll(results);
+                    if(response.isSuccessful()) {
+                        final List<Films> results = response.body() == null || response.body().getSearch() == null? new ArrayList<Films>() : response.body().getSearch();
+                        films.setSearch(results);
                         tableau.notifyDataSetChanged();
                         progres.setVisibility(View.GONE);
 
-                        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+ /*
                                 Intent intent = new Intent(MainActivity.this, Details.class);
                                 intent.putExtra("titre",results.get(position).getTitle());
                                 intent.putExtra("annee",results.get(position).getYear());
                                 intent.putExtra("genre",results.get(position).getGenre());
                                 intent.putExtra("acteurs",results.get(position).getActors());
                                 intent.putExtra("lien",results.get(position).getPoster());
-                                startActivity(intent);
-                            }
-                        });
+                                startActivity(intent);*/
+
 
                     }else {
                         // Erreur serveur

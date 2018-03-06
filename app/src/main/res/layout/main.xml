@@ -49,11 +49,11 @@
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true" />
 
-        <ListView
-            android:layout_height="fill_parent"
-            android:id="@+id/maliste"
-            android:layout_width="fill_parent">
-        </ListView>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/my_recycler_view"
+            android:scrollbars="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
 
     </LinearLayout>

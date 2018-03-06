@@ -1,54 +1,67 @@
 package com.example.akoumare.testandroidnatif;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.util.List;
+
 
 /**
  * Created by akoumare on 02/03/2018.
  */
 
-public class CustumerAdapter extends ArrayAdapter<Films> {
+public class CustumerAdapter extends RecyclerView.Adapter<CustumerAdapter.FilmViewHolder> {
 
     LayoutInflater inflater;
+    ListeFilms films;
+    Context context;
 
-    public CustumerAdapter(Context context) {
-        super(context, 0);
-        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    public class FilmViewHolder  extends RecyclerView.ViewHolder {
+        public TextView monTexte;
+        public ImageView monImage;
+
+        public FilmViewHolder(View itemView) {
+            super(itemView);
+            monTexte =(TextView) itemView.findViewById(R.id.monTexte);
+            monImage=(ImageView) itemView.findViewById(R.id.monImage);
+        }
     }
 
+
+
+    public CustumerAdapter(ListeFilms monfilm) {
+        films= monfilm;
+    }
+    // Create new views (invoked by the layout manager)
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-
-        //si la vue n'a pas été créée
-      if(convertView==null){
-          convertView = LayoutInflater.from(getContext()).inflate(R.layout.listage,parent,false);
-      }
-
-
-      FilmViewHolder viewHolder =(FilmViewHolder) convertView.getTag();
-      if(viewHolder==null){
-          viewHolder = new FilmViewHolder();
-          viewHolder.monTexte =(TextView) convertView.findViewById(R.id.monTexte);
-          viewHolder.monImage =(ImageView) convertView.findViewById(R.id.monImage);
-          convertView.setTag(viewHolder);
-      }
-
-        Films film = getItem(position);
-        viewHolder.monTexte.setText(film.getTitle().toString());
-        Picasso.with(getContext()).load(film.getPoster().toString()).into(viewHolder.monImage);
-
-        return convertView;
+    public CustumerAdapter.FilmViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        // create a new view
+        context =parent.getContext();
+        View v = (View) LayoutInflater.from(parent.getContext()).inflate(R.layout.listage, parent, false);
+        FilmViewHolder vh = new FilmViewHolder(v);
+        return vh;
     }
+
+    // Replace the contents of a view (invoked by the layout manager)
+    @Override
+    public void onBindViewHolder(FilmViewHolder ancien, int position) {
+        // - get element from your dataset at this position
+        // - replace the contents of the view with that element
+        Films film = films.getSearch().get(position);
+       ancien.monTexte.setText(film.getTitle().toString());
+        Picasso.with(context).load(film.getPoster().toString()).into(ancien.monImage);
+    }
+
+    // Return the size of your dataset (invoked by the layout manager)
+    @Override
+    public int getItemCount() {
+        return films.getSearch()==null ? 0 : films.getSearch().size();
+    }
+
 }

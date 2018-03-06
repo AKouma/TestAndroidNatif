@@ -12,6 +12,7 @@ public class ListeFilms {
     @SerializedName("Search")
     private List<Films> search;
 
+
     public List<Films> getSearch() {
         return search;
     }

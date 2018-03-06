@@ -35,7 +35,8 @@ public class Details extends Activity {
         list = (ListView) findViewById(R.id.detailFilm);
         retour =(Button)findViewById(R.id.retour);
 
-        tabl =new ArrayAdapter<String>(this, R.layout.details,R.id.detailFilm);
+        tabl =new ArrayAdapter<String>(Details.this, R.layout.info,R.id.infoFilms);
+        list.setAdapter(tabl);
 
         retour.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -70,6 +71,7 @@ public class Details extends Activity {
         if(genre  !=null){
             tabl.add("Genre :"+genre);
         }
+        list.setAdapter(tabl);
 
 
     }

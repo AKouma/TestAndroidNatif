@@ -39,17 +39,6 @@
             </LinearLayout>
         </LinearLayout>
 
-        <ProgressBar
-            android:id="@+id/proBar"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="20dp"
-            android:indeterminate="false"
-            android:progress="1" />
-
         <ListView
             android:layout_height="fill_parent"
             android:id="@+id/maliste"

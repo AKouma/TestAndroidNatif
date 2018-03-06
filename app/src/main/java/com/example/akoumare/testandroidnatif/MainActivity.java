@@ -36,7 +36,6 @@ public class MainActivity extends Activity  {
     OmdbService service;
     ImageView imagedufilm;
     CustumerAdapter tableau;
-    private ProgressBar mProgressBar;
     ListView list;
 
     @Override
@@ -73,7 +72,6 @@ public class MainActivity extends Activity  {
 
         titre =(EditText)findViewById (R.id.Nomfilm);
         search =(Button)findViewById (R.id.Chercher);
-        mProgressBar = (ProgressBar) findViewById(R.id.proBar);
 
         // lancer la recherche en tapant sur entrée du clavier
         titre.setOnEditorActionListener(new EditText.OnEditorActionListener() {
@@ -81,8 +79,7 @@ public class MainActivity extends Activity  {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 boolean handled = false;
                 if (event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
-                    Recherche newSearch =new Recherche();
-                    newSearch.execute();
+                  startSearch();
                     handled = true;
                 }
                 return handled;
@@ -93,79 +90,58 @@ public class MainActivity extends Activity  {
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Recherche newSearch =new Recherche();
-                newSearch.execute();
+              startSearch();
             }
         });
 
 
     }
     //method startSearch
+    public void startSearch(){
+        if(!titre.getText().toString().isEmpty()&& titre.getText().toString()!=null){
+            Call<ListeFilms> call = service.searchFilms("2613acdd",titre.getText().toString());
+            call.enqueue(new Callback<ListeFilms>() {
+                @Override
+                public void onResponse(Call<ListeFilms> call, Response<ListeFilms> response) {
+                    if(response.isSuccessful() && response.body().getSearch()!= null) {
+                        final List<Films> results= response.body().getSearch();
+                        tableau.clear();
+                         tableau.addAll(results);
+                        tableau.notifyDataSetChanged();
+                        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-    private class Recherche extends AsyncTask<Void,Integer,Void>{
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            int progress = 0;
-            if(!titre.getText().toString().isEmpty()&& titre.getText().toString()!=null){
-                Call<ListeFilms> call = service.searchFilms("2613acdd",titre.getText().toString());
-                call.enqueue(new Callback<ListeFilms>() {
-                    @Override
-                    public void onResponse(Call<ListeFilms> call, Response<ListeFilms> response) {
-                        if(response.isSuccessful() && response.body().getSearch()!= null) {
-                            final List<Films> results= response.body().getSearch();
-                            tableau.clear();
-                            // tableau.addAll(results);
-                            int progress ;
-                            mProgressBar.setMax(results.size() - 2);
-                            for(progress =0; progress < results.size(); progress++){
-                                tableau.add(results.get(progress));
-                                publishProgress(progress);
-                                progress++;
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                Intent intent = new Intent(MainActivity.this, Details.class);
+                                intent.putExtra("titre",results.get(position).getTitle());
+                                intent.putExtra("annee",results.get(position).getYear());
+                                intent.putExtra("genre",results.get(position).getGenre());
+                                intent.putExtra("acteurs",results.get(position).getActors());
+                                intent.putExtra("lien",results.get(position).getPoster());
+                                startActivity(intent);
                             }
-                            tableau.notifyDataSetChanged();
-                            list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        });
 
-                                @Override
-                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                    Intent intent = new Intent(MainActivity.this, Details.class);
-                                    intent.putExtra("titre",results.get(position).getTitle());
-                                    intent.putExtra("annee",results.get(position).getYear());
-                                    intent.putExtra("genre",results.get(position).getGenre());
-                                    intent.putExtra("acteurs",results.get(position).getActors());
-                                    intent.putExtra("lien",results.get(position).getPoster());
-                                    startActivity(intent);
-                                }
-                            });
-
-                        }else {
-                            // Erreur serveur
-                            Toast.makeText(MainActivity.this,"Film  non trouvé",Toast.LENGTH_SHORT).show();
-                        }
-
+                    }else {
+                        // Erreur serveur
+                        Toast.makeText(MainActivity.this,"Film  non trouvé",Toast.LENGTH_SHORT).show();
                     }
 
-                    @Override
-                    public void onFailure(Call<ListeFilms> call, Throwable t) {
-                        Toast.makeText(MainActivity.this,"error Connection",Toast.LENGTH_SHORT).show();
-                    }
-                });
+                }
+
+                @Override
+                public void onFailure(Call<ListeFilms> call, Throwable t) {
+                    Toast.makeText(MainActivity.this,"error Connection",Toast.LENGTH_SHORT).show();
+                }
+            });
 
 
 
-            }
-            else{
-                Toast.makeText(MainActivity.this,"renseignez le titre d'un film",Toast.LENGTH_SHORT).show();
-            }
-
-            return null;
         }
-        @Override
-        protected void onProgressUpdate(Integer... values){
-            super.onProgressUpdate(values);
-            // Mise à jour de la ProgressBar
-            mProgressBar.setProgress(values[0]);
+        else{
+            Toast.makeText(MainActivity.this,"renseignez le titre d'un film",Toast.LENGTH_SHORT).show();
         }
+
     }
 
 }

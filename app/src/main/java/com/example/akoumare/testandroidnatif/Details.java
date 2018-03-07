@@ -51,9 +51,9 @@ public class Details extends Activity {
         genre = intent.getStringExtra("genre");
         lien= intent.getStringExtra("lien");
 
-        Toast.makeText(this,lien.toString(),Toast.LENGTH_SHORT).show();
+        Toast.makeText(this,lien,Toast.LENGTH_SHORT).show();
 
-        Picasso.with(getBaseContext()).load(lien.toString()).into(image);
+        Picasso.with(getBaseContext()).load(lien).into(image);
 
         if(titre  !=null){
             tabl.add("Titre :"+titre);

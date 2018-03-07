@@ -59,7 +59,7 @@ public class CustumerAdapter extends RecyclerView.Adapter<CustumerAdapter.FilmVi
        ancien.monTexte.setText(film.getTitle().toString());
         Picasso.with(context).load(film.getPoster().toString()).into(ancien.monImage);
 
-        //OnClickListener methods with recyclerview 
+        //OnClickListener methods with recyclerview
         ancien.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

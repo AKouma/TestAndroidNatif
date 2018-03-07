@@ -125,24 +125,13 @@ public class MainActivity extends Activity  {
                 public void onResponse(Call<ListeFilms> call, Response<ListeFilms> response) {
                     if(response.isSuccessful()) {
                         final List<Films> results = response.body() == null || response.body().getSearch() == null? new ArrayList<Films>() : response.body().getSearch();
-                        films.setSearch(results);
-                        tableau.notifyDataSetChanged();
+                        if(response.body().getSearch() == null){
+                            Toast.makeText(MainActivity.this,"Film  non trouvé",Toast.LENGTH_SHORT).show();
+                        }else {
+                            films.setSearch(results);
+                            tableau.notifyDataSetChanged();
+                        }
                         progres.setVisibility(View.GONE);
-
-
- /*
-                                Intent intent = new Intent(MainActivity.this, Details.class);
-                                intent.putExtra("titre",results.get(position).getTitle());
-                                intent.putExtra("annee",results.get(position).getYear());
-                                intent.putExtra("genre",results.get(position).getGenre());
-                                intent.putExtra("acteurs",results.get(position).getActors());
-                                intent.putExtra("lien",results.get(position).getPoster());
-                                startActivity(intent);*/
-
-
-                    }else {
-                        // Erreur serveur
-                        Toast.makeText(MainActivity.this,"Film  non trouvé",Toast.LENGTH_SHORT).show();
                     }
 
                 }

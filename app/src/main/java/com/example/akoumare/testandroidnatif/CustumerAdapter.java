@@ -65,11 +65,11 @@ public class CustumerAdapter extends RecyclerView.Adapter<CustumerAdapter.FilmVi
             public void onClick(View view) {
                 Context c = view.getContext();
                 Intent intent = new Intent(c, Details.class);
-                intent.putExtra("titre",film.getTitle().toString());
-                intent.putExtra("annee",film.getYear().toString());
-                intent.putExtra("genre",film.getGenre().toString());
+                intent.putExtra("titre",film.getTitle());
+                intent.putExtra("annee",film.getYear());
+                intent.putExtra("genre",film.getGenre());
                 intent.putExtra("acteurs",film.getActors());
-                intent.putExtra("lien",film.getPoster().toString());
+                intent.putExtra("lien",film.getPoster());
                 c.startActivity(intent);
             }
         });

@@ -1,6 +1,7 @@
 package com.example.akoumare.testandroidnatif;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,29 +22,23 @@ public class CustumerAdapter extends RecyclerView.Adapter<CustumerAdapter.FilmVi
     LayoutInflater inflater;
     ListeFilms films;
     Context context;
-    private RecyclerClickListener myListener;
 
-    public class FilmViewHolder  extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class FilmViewHolder  extends RecyclerView.ViewHolder  {
         public TextView monTexte;
         public ImageView monImage;
 
-        public FilmViewHolder(View itemView,RecyclerClickListener listener) {
+        public FilmViewHolder(View itemView) {
             super(itemView);
             monTexte =(TextView) itemView.findViewById(R.id.monTexte);
             monImage=(ImageView) itemView.findViewById(R.id.monImage);
-            myListener =listener;
-            itemView.setOnClickListener(this);
+
         }
-        @Override
-        public void onClick(View view) {
-            myListener.onClick(view, getAdapterPosition());
-        }
+
     }
 
 
-    public CustumerAdapter(ListeFilms monfilm,RecyclerClickListener listener) {
+    public CustumerAdapter(ListeFilms monfilm) {
         films= monfilm;
-        myListener = listener;
     }
     // Create new views (invoked by the layout manager)
     @Override
@@ -51,18 +46,33 @@ public class CustumerAdapter extends RecyclerView.Adapter<CustumerAdapter.FilmVi
         // create a new view
         context =parent.getContext();
         View v = (View) LayoutInflater.from(parent.getContext()).inflate(R.layout.listage, parent, false);
-        FilmViewHolder vh = new FilmViewHolder(v,myListener);
+        FilmViewHolder vh = new FilmViewHolder(v);
         return vh;
     }
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(FilmViewHolder ancien, int position) {
+    public void onBindViewHolder(final FilmViewHolder ancien, final int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        Films film = films.getSearch().get(position);
+        final Films film = films.getSearch().get(position);
        ancien.monTexte.setText(film.getTitle().toString());
         Picasso.with(context).load(film.getPoster().toString()).into(ancien.monImage);
+
+        //OnClickListener methods with recyclerview 
+        ancien.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Context c = view.getContext();
+                Intent intent = new Intent(c, Details.class);
+                intent.putExtra("titre",film.getTitle().toString());
+                intent.putExtra("annee",film.getYear().toString());
+                intent.putExtra("genre",film.getGenre().toString());
+                intent.putExtra("acteurs",film.getActors());
+                intent.putExtra("lien",film.getPoster().toString());
+                c.startActivity(intent);
+            }
+        });
 
     }
 

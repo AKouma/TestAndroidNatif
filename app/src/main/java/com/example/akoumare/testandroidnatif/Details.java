@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -55,23 +56,24 @@ public class Details extends Activity {
 
         Picasso.with(getBaseContext()).load(lien).into(image);
 
-        if(titre  !=null){
+        //TextUtils.isEmpty(titre) fais les deux controls
+        if(titre  !=null && !titre.isEmpty()){
             tabl.add("Titre :"+titre);
             tabl.notifyDataSetChanged();
         }
 
 
-        if(annee  !=null){
+        if(annee  !=null && !annee.isEmpty()){
             tabl.add("Année de sortie :"+annee);
             tabl.notifyDataSetChanged();
         }
 
-        if(acteurs  !=null){
+        if(acteurs  !=null && !acteurs.isEmpty()){
             tabl.add("Acteurs :"+acteurs);
             tabl.notifyDataSetChanged();
         }
 
-        if(genre  !=null){
+        if(genre  !=null && !genre.isEmpty()){
             tabl.add("Genre :"+genre);
             tabl.notifyDataSetChanged();
         }

@@ -2,27 +2,24 @@ package com.example.akoumare.testandroidnatif;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import io.realm.Realm;
+import io.realm.RealmQuery;
+import io.realm.RealmResults;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
@@ -38,19 +35,20 @@ public class MainActivity extends Activity  {
     Button  loadFilms;
     ListeFilms films = new ListeFilms();
     OmdbService service;
-    ImageView imagedufilm;
     private RecyclerView.Adapter tableau;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     ProgressBar progres ;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
+
         tableau=new CustumerAdapter(films);
         setContentView(R.layout.main);
-        imagedufilm=(ImageView)findViewById(R.id.monImage);
 
         progres = (ProgressBar)findViewById(R.id.progressBar_cyclic);
         progres.setVisibility(View.INVISIBLE);
@@ -120,6 +118,8 @@ public class MainActivity extends Activity  {
         loadFilms.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent repertory = new Intent(getApplicationContext(), activityRepertory.class);
+                getApplicationContext().startActivity(repertory);
 
             }
         });

@@ -19,7 +19,6 @@ import com.squareup.picasso.Picasso;
 
 public class CustumerAdapter extends RecyclerView.Adapter<CustumerAdapter.FilmViewHolder> {
 
-    LayoutInflater inflater;
     ListeFilms films;
     Context context;
 

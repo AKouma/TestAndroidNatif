@@ -35,6 +35,7 @@ public class MainActivity extends Activity  {
 
     EditText titre ;
     Button search;
+    Button  loadFilms;
     ListeFilms films = new ListeFilms();
     OmdbService service;
     ImageView imagedufilm;
@@ -89,6 +90,7 @@ public class MainActivity extends Activity  {
 
         titre =(EditText)findViewById (R.id.Nomfilm);
         search =(Button)findViewById (R.id.Chercher);
+        loadFilms=(Button)findViewById(R.id.loadFilms);
 
         // lancer la recherche en tapant sur entrée du clavier
         titre.setOnEditorActionListener(new EditText.OnEditorActionListener() {
@@ -110,6 +112,14 @@ public class MainActivity extends Activity  {
                 progres.setVisibility(View.VISIBLE);
                 startSearch();
 
+
+            }
+        });
+
+        //load films from database
+        loadFilms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
             }
         });

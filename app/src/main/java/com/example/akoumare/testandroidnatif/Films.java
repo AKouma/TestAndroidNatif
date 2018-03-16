@@ -3,6 +3,7 @@ package com.example.akoumare.testandroidnatif;
 import com.google.gson.annotations.SerializedName;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by akoumare on 02/03/2018.
@@ -14,6 +15,7 @@ public class Films extends RealmObject {
     @SerializedName("Poster")
     private String poster ;
 
+    @PrimaryKey
     @SerializedName("Title")
     private String title;
 

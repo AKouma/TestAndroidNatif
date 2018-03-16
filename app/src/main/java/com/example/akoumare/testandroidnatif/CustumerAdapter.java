@@ -27,7 +27,6 @@ public class CustumerAdapter extends RecyclerView.Adapter<CustumerAdapter.FilmVi
 
     ListeFilms films;
     Context context;
-    static Films film;
 
     private static final int DIALOG_ALERT = 10;
 
@@ -64,16 +63,16 @@ public class CustumerAdapter extends RecyclerView.Adapter<CustumerAdapter.FilmVi
 
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        film = films.getSearch().get(position);
+       final Films film = films.getSearch().get(position);
        ancien.monTexte.setText(film.getTitle().toString());
         Picasso.with(context).load(film.getPoster().toString()).into(ancien.monImage);
 
         //OnClickListener methods with recyclerview
         ancien.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
 
-               final View view = v;
+
                 //dialogBox
                 AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
                 builder1.setMessage("Voulez vous enregistrer les references de ce films ?");
@@ -87,13 +86,13 @@ public class CustumerAdapter extends RecyclerView.Adapter<CustumerAdapter.FilmVi
 
                                 Realm realm = Realm.getDefaultInstance();
                                 realm.beginTransaction();
-                                Films f =realm.createObject(Films.class);
+                                Films f =realm.createObject(Films.class, film.getTitle());
                                 settings(f);
-                                realm.insert(f);
+                                realm.insertOrUpdate(f);
                                 realm.commitTransaction();
 
 
-                                Context c = view.getContext();
+                                Context c = v.getContext();
                                 Intent intent = new Intent(c, Details.class);
                                 intent.putExtra("titre",film.getTitle());
                                 intent.putExtra("annee",film.getYear());
@@ -109,7 +108,7 @@ public class CustumerAdapter extends RecyclerView.Adapter<CustumerAdapter.FilmVi
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 Toast.makeText(context,"Non enregistré",Toast.LENGTH_SHORT).show();
-                                Context c = view.getContext();
+                                Context c = v.getContext();
                                 Intent intent = new Intent(c, Details.class);
                                 intent.putExtra("titre",film.getTitle());
                                 intent.putExtra("annee",film.getYear());
@@ -129,7 +128,7 @@ public class CustumerAdapter extends RecyclerView.Adapter<CustumerAdapter.FilmVi
                 toSet.setActors(film.getActors());
                 toSet.setGenre(film.getGenre());
                 toSet.setPoster(film.getPoster());
-                toSet.setTitle(film.getTitle());
+              //toSet.setTitle(film.getTitle());
                 toSet.setYear(film.getYear());
             }
 

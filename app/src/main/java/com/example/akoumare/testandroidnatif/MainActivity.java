@@ -45,8 +45,6 @@ public class MainActivity extends Activity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-
         tableau=new CustumerAdapter(films);
         setContentView(R.layout.main);
 

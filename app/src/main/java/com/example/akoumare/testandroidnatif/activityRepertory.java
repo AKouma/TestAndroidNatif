@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -26,17 +27,29 @@ public class activityRepertory extends Activity {
     private RecyclerView.Adapter tab;
     private RecyclerView recyView;
     private RecyclerView.LayoutManager layManager;
+    Button back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.repertory);
 
+        back =(Button)findViewById(R.id.back);
+
+        back.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
         Realm realm = Realm.getDefaultInstance();
         RealmQuery<Films> query =realm.where(Films.class);
         RealmResults<Films> res =query.findAll();
-        realmToFIlm(res,films);
-        realm.commitTransaction();
+        films.setSearch(res);
+       // realmToFIlm(res,films);
+      //  realm.commitTransaction();
 
         tab=new repertoryAdapter(films);
         tab.notifyDataSetChanged();
